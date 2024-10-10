@@ -1,7 +1,17 @@
-from keras.layers import Dense, Dropout, Activation
-from keras.layers import LSTM, GRU
+from keras.layers import (
+    LSTM,
+    GRU,
+    Conv1D,
+    MaxPooling1D,
+    Flatten,
+    SimpleRNN,
+    Dense,
+    Dropout,
+    Activation,
+)
 from keras.models import Sequential
 from tcn import TCN
+import tensorflow as tf
 
 
 # Define LSTM model with 9 features
@@ -63,22 +73,22 @@ def get_saes(layers):
     return models
 
 
-# Define TCN model with 9 features
-def get_tcn(units):
+# Define CNN model with 9 features
+def get_cnn(units):
     model = Sequential()
-    # Update input_shape to handle 9 features
-    
     model.add(
-        TCN(
-            input_shape=(units[0], 9),  # 9 features
-            nb_filters=64,
+        Conv1D(
+            filters=64,
             kernel_size=3,
-            dilations=[1, 2, 4, 8],
+            padding="same",
+            activation="relu",
+            input_shape=(units[0], 9),
         )
     )
-
-    model.add(Dropout(0.2))
+    model.add(MaxPooling1D(pool_size=2))
+    model.add(Conv1D(filters=128, kernel_size=3, padding="same", activation="relu"))
+    model.add(MaxPooling1D(pool_size=2))
+    model.add(Flatten())
     model.add(Dense(units[1], activation="relu"))
-    model.add(Dense(units[2], activation="sigmoid"))
-
+    model.add(Dense(units[2], activation="sigmoid"))  # Or 'linear' for regression
     return model

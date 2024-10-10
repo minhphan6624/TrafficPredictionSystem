@@ -18,7 +18,7 @@ df = None
 def load_data():
     global df
     # Load in the 'scats_data.csv' file
-    file_location = "../data/scats_data.csv"
+    file_location = "../training_data/scats_data.csv"
 
     df = pd.read_csv(file_location)
 
@@ -31,6 +31,7 @@ def load_data():
         },
         regex=True,
     )
+
 
 def generate_graph():
     global df
@@ -75,8 +76,11 @@ def generate_graph():
 
         # Find the closest SCAT based on longitude and latitude
         for _, row in first_loc_df.iterrows():
-            dist = math.sqrt( (row["NB_LONGITUDE"] - longitude) ** 2 + (row["NB_LATITUDE"] - latitude) ** 2 )
-            
+            dist = math.sqrt(
+                (row["NB_LONGITUDE"] - longitude) ** 2
+                + (row["NB_LATITUDE"] - latitude) ** 2
+            )
+
             if dist < min_distance:
                 min_distance = dist
                 closest_scat = row["SCATS Number"]

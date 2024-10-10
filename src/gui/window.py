@@ -67,8 +67,8 @@ def run_pathfinding(start, end):
         location=(-37.86703, 145.09159), zoom_start=13, tiles="CartoDB Positron"
     )
 
-    #start_node = graph_maker.search_graph(graph, start)
-    #end_node = graph_maker.search_graph(graph, end)
+    # start_node = graph_maker.search_graph(graph, start)
+    # end_node = graph_maker.search_graph(graph, end)
 
     logger.log(f"Using start and end node [{start}, {end}]")
 
